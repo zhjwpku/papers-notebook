@@ -1,0 +1,251 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>rcfile - 论文阅读笔记</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="../index.html">Paper Notes</a></li><li class="chapter-item "><a href="../databases/index.html"><strong aria-hidden="true">1.</strong> databases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../databases/column-stores-vs-row-stores.html"><strong aria-hidden="true">1.1.</strong> column-stores-vs-row-stores</a></li><li class="chapter-item "><a href="../databases/kv/index.html"><strong aria-hidden="true">1.2.</strong> kv</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../databases/kv/dynamo.html"><strong aria-hidden="true">1.2.1.</strong> dynamo</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../datalayout/index.html"><strong aria-hidden="true">2.</strong> datalayout</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../datalayout/c-store.html"><strong aria-hidden="true">2.1.</strong> cstore</a></li><li class="chapter-item "><a href="../datalayout/dremel.html"><strong aria-hidden="true">2.2.</strong> dremel</a></li><li class="chapter-item expanded "><a href="../datalayout/rcfile.html" class="active"><strong aria-hidden="true">2.3.</strong> rcfile</a></li><li class="chapter-item "><a href="../datalayout/orc.html"><strong aria-hidden="true">2.4.</strong> orc</a></li></ol></li><li class="chapter-item "><a href="../fs/index.html"><strong aria-hidden="true">3.</strong> filesystem</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../fs/polarfs.html"><strong aria-hidden="true">3.1.</strong> polarfs</a></li></ol></li><li class="chapter-item "><a href="../storage/index.html"><strong aria-hidden="true">4.</strong> storage</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../storage/kudu.html"><strong aria-hidden="true">4.1.</strong> kudu</a></li><li class="chapter-item "><a href="../storage/bluestore.html"><strong aria-hidden="true">4.2.</strong> bluestore</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">论文阅读笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h3 id="a-hrefassetspdfsrcfilepdfrcfile-a-fast-and-space-efficient-data-placement-structure-in-mapreduce-based-warehouse-systemsa"><a class="header" href="#a-hrefassetspdfsrcfilepdfrcfile-a-fast-and-space-efficient-data-placement-structure-in-mapreduce-based-warehouse-systemsa"><a href="../assets/pdfs/RCFile.pdf">RCFile: A fast and space-efficient data placement structure in MapReduce-based warehouse systems</a></a></h3>
+<blockquote>
+<p>IEEE 27th International Conference on Data Engineering, 2011</p>
+<p>https://ieeexplore.ieee.org/document/5767933</p>
+</blockquote>
+<p>基于 MapReduce 的数仓系统在大数据分析领域扮演着一个非常重要的角色，在这样的系统中 <code>data placement structure</code> 是影响数仓性能的关键要素。作者根据对 Facebook 生产系统的观察与分析，总结了 <code>data placement structure</code> 需要满足大数据处理的四个要求:</p>
+<ol>
+<li>Fast data loading</li>
+<li>Fast query processing</li>
+<li>Highly efficient storage space utilization</li>
+<li>Strong adaptivity to highly dynamic workload patterns</li>
+</ol>
+<p>文章对三种在传统数据库系统接受度甚广的数据格式 —— row-stores, column-stores, hybrid-stores —— 基于 MapReduce 使用场景分析了它们不适合分布式大数据分析系统的原因，并提出了一种新的数据格式 RCFile(Record Columnar File)。</p>
+<h3 id="horizontal-row-store"><a class="header" href="#horizontal-row-store">Horizontal Row-store</a></h3>
+<p>row-store 将一行记录的所有字段按照表的定义逐一顺序存放在磁盘页:</p>
+<p><img src="../assets/images/rcfile_row_store_in_an_hdfs_block.jpg" alt="An example of row-store in an HDFS block" /></p>
+<p>行存对于只读的数仓系统的弱点已经被充分讨论过，包括：</p>
+<ul>
+<li>对于只关心少数几个列的查询，行存不能减少无用列的读取，因而很难提供快速的查询</li>
+<li>各列不同类型的数据混合存储使得行存很难获得较高的压缩比（虽然有研究指出通过结合<code>熵编码</code>和<code>列相关性</code>能够为行存提供优于列存的压缩比，但解压会消耗更多的资源）</li>
+</ul>
+<p><strong>行存满足大数据处理四个要求中的 1、4</strong></p>
+<h3 id="vertical-column-store"><a class="header" href="#vertical-column-store">Vertical Column-store</a></h3>
+<p>在数仓系统中广泛被使用的读优化的列存格式分为两种，一种是将每一列作为一个 <code>sub-relation</code> 单独存储，典型代表如 <code>Decomposition Storage Model(DSM)</code> 和 MonetDB；另一种将关系中的所有列组合成多个的 <code>column group</code>，并且允许不同 <code>column group</code> 之间有 overlap，典型代表如 <code>C-store</code> 和 Yahoo Zebra。文中称第一种模式为 <code>column-store</code>，将第二种模式称作 <code>column-group</code>。</p>
+<p><code>column-group</code> 模式中单个 <code>group</code> 的数据组织方式依赖具体实现，C-store 中每个 group 采用 <code>column-store</code>，而 Zebra 中的每个 group 则采用行存存储。下图是一个 <code>column-group</code> 的示例：</p>
+<p><img src="../assets/images/rcfile_colum_group.jpg" alt="An example of column-group in an HDFS block" /></p>
+<p><code>column-store</code> 能够避免读取无用列的数据，并能提供较高的压缩比。但在 HDFS 中，不同列的数据不能保证存储在同一个 DataNode 上，因此重构数据时存在大量网络开销。</p>
+<p><code>column-group</code> 的每个 group 相当于一个物化视图，可以避免数据重构的网络开销，但由于预先设计好的 projection 只对有限的查询语句有效，因此不支持 <code>highly dynamic workload</code>。而且由于 <code>column-group</code> 的数据存在 overlap，难免会造成数据空间的膨胀。</p>
+<p><strong><code>column-store</code> 满足大数据处理四个要求中的 1、3、4</strong></p>
+<p><strong><code>column-group</code> 满足大数据处理四个要求中的 1、2</strong></p>
+<h3 id="hybrid-store-pax"><a class="header" href="#hybrid-store-pax">Hybrid Store: PAX</a></h3>
+<p>PAX 使用了一种数据混合放置的策略，同一行数据的各字段仍然存储在同一个磁盘页，只是将该磁盘页的多行记录进行了重新组织，各个列的值连续存储在 mini-page 中，并在 page header 中存储 mini-page 的指针。</p>
+<p>PAX 的主要目的是为了提高 CPU 缓存命中率（减少 false sharing），鉴于以下三点原因，它不能满足较高的存储空间利用率及快速查询：</p>
+<ol>
+<li>数据未进行压缩</li>
+<li>由于单个磁盘页存储的数据内容不变，PAX 不能消除无用列的磁盘读 I/O</li>
+<li>PAX 使用 fixed page 作为数据记录组织的基本单元</li>
+</ol>
+<p><strong>PAX 满足大数据处理的四个要求中的 1、4</strong></p>
+<h3 id="rcfile"><a class="header" href="#rcfile">RCFile</a></h3>
+<p>RCFile 在设计上借用了 PAX 的理念：<code>First horizontally-partion, then vertically-partion</code>。其实现在 HDFS 之上，表的数据布局：</p>
+<ol>
+<li>一个表有多个 HDFS blocks</li>
+<li>在每个 HDFS block 中，按照 row group 为基本单元对记录进行组织，根据 row group size 和 HDFS block size，一个 HDFS block 可以对应一个或多个 row group</li>
+<li>每个 row group 包含三个分区: sync marker、metadata header、table data</li>
+</ol>
+<p><img src="../assets/images/rcfile_rcfile.jpg" alt="An example to demonstrate the data layout of RCFile in an HDFS block" /></p>
+<p>RCFile 使用 Run Length Encoding 对 metadata header 进行压缩，table data 的数据各列数据使用 Gzip 进行独立压缩（A future work: 根据不同类型自动选择最佳的压缩算法）。</p>
+<p>RCFile 数据追加写的方式总结如下：</p>
+<blockquote>
+<ol>
+<li>
+<p>RCFile creates and maintains an in-memory column holder for each column. When a record is appended,
+all its fields will be scattered, and each field will be appended into its corresponding column holder. In
+addition, RCFile will record corresponding metadata of each field in the metadata header.</p>
+</li>
+<li>
+<p>RCFile provides two parameters to control how many records can be buffered in memory before they are
+flushed into the disk. One parameter is the limit of the number of records, and the other parameter is the limit
+of the size of the memory buffer.</p>
+</li>
+<li>
+<p>RCFile first compresses the metadata header and stores it in the disk. Then it compresses each column holder
+separately, and flushes compressed column holders into one row group in the underlying file system.</p>
+</li>
+</ol>
+</blockquote>
+<p>RCFile 可以根据查询语句的需要只读取 row group 中所需要的列。假设 tbl 有四列数据（c1, c2, c3, c4），如下语句只需读取并解压 c1 和 c4 列</p>
+<pre><code class="language-sql">select c1 from tbl where c4 = 1
+</code></pre>
+<p>当一个 row group 中没有满足 c4 = 1 的记录时，甚至不需要读取 c1 列，这被称为 <code>Lazy Decompression</code>。row group size 的大小也会影响 Lazy Decompression 的有效性，因为当 row group size 比较大时，命中满足条件的行的几率会更大，从而使得 Lazy Decompression 更容易失效。</p>
+<p>row group size、压缩率、Lazy Decompression 之间的关系存在 trade off，文中使用数据进行了佐证。</p>
+<p><strong>RCFile 满足大数据处理的四个要求中的 1、2、3、4</strong></p>
+<h4 id="more-readings"><a class="header" href="#more-readings">More Readings:</a></h4>
+<p>[1] <a href="https://www.youtube.com/watch?v=1rOSia_r8hI">RCFile vs. ORC</a> from Hadoop In Real World</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../datalayout/dremel.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../datalayout/orc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../datalayout/dremel.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../datalayout/orc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>bluestore - 论文阅读笔记</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="../index.html">Paper Notes</a></li><li class="chapter-item "><a href="../databases/index.html"><strong aria-hidden="true">1.</strong> databases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../databases/column-stores-vs-row-stores.html"><strong aria-hidden="true">1.1.</strong> column-stores-vs-row-stores</a></li><li class="chapter-item "><a href="../databases/kv/index.html"><strong aria-hidden="true">1.2.</strong> kv</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../databases/kv/dynamo.html"><strong aria-hidden="true">1.2.1.</strong> dynamo</a></li></ol></li></ol></li><li class="chapter-item "><a href="../datalayout/index.html"><strong aria-hidden="true">2.</strong> datalayout</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../datalayout/c-store.html"><strong aria-hidden="true">2.1.</strong> cstore</a></li><li class="chapter-item "><a href="../datalayout/dremel.html"><strong aria-hidden="true">2.2.</strong> dremel</a></li><li class="chapter-item "><a href="../datalayout/rcfile.html"><strong aria-hidden="true">2.3.</strong> rcfile</a></li><li class="chapter-item "><a href="../datalayout/orc.html"><strong aria-hidden="true">2.4.</strong> orc</a></li></ol></li><li class="chapter-item "><a href="../fs/index.html"><strong aria-hidden="true">3.</strong> filesystem</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../fs/polarfs.html"><strong aria-hidden="true">3.1.</strong> polarfs</a></li></ol></li><li class="chapter-item expanded "><a href="../storage/index.html"><strong aria-hidden="true">4.</strong> storage</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../storage/kudu.html"><strong aria-hidden="true">4.1.</strong> kudu</a></li><li class="chapter-item expanded "><a href="../storage/bluestore.html" class="active"><strong aria-hidden="true">4.2.</strong> bluestore</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">论文阅读笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h3 id="a-hrefassetspdfsfilesystemsunfitasdistributedstoragebackends-lessonsfromtenyearsofcephevolutionpdffile-systems-unfit-as-distributed-storage-backends-lessons-from-10-years-of-ceph-evolutiona"><a class="header" href="#a-hrefassetspdfsfilesystemsunfitasdistributedstoragebackends-lessonsfromtenyearsofcephevolutionpdffile-systems-unfit-as-distributed-storage-backends-lessons-from-10-years-of-ceph-evolutiona"><a href="../assets/pdfs/FileSystemsUnfitAsDistributedStorageBackends-lessonsFromTenYearsOfCephEvolution.pdf">File Systems Unfit as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</a></a></h3>
+<blockquote>
+<p>SOSP 2019</p>
+<p>https://doi.org/10.1145/3341301.3359656</p>
+</blockquote>
+<p>很多分布式文件系统选择将其存储后端构建在本地文件系统之上，如 ext4, XFS，原因在于:</p>
+<ul>
+<li>将持久化及磁盘空间管理的工作交给了健壮的内核代码</li>
+<li>本地文件系统提供了 Posix 接口及文件目录抽象</li>
+<li>可以使用标准工具（ls, find）来查看数据内容</li>
+</ul>
+<p>Ceph 也不例外，在其架构演进的进程中前后使用过 Btrfs，XFS 等文件系统作为其 FileStore 的后端存储，但在遵循这种惯例 10 年后，发现以本地文件系统作为存储后端有着昂贵的代价:</p>
+<ul>
+<li>developing a zero-overhead transaction mechanism is challenging</li>
+<li>metadata performance at the local level can significantly affect performance at the distributed level</li>
+<li>supporting emerging storage hardware is painstakingly slow</li>
+</ul>
+<p>第一，在现有的文件系统之上实现高效的事务非常困难（性能开销、功能限制、接口复杂度或者实现难度），有三种可做尝试的方法：</p>
+<ol>
+<li>hooking into a file system’s internal (but limited) transaction mechanism</li>
+<li>implementing a WAL in user space</li>
+<li>using a key-value database with transactions as a WAL</li>
+</ol>
+<p>Ceph 在尝试上述三种方式时都遇到了一些问题，如使用文件系统内置的事务机制会造成数据部分提交；在用户态实现 WAL 有 Read-Modify-Write、操作非幂等引起进程重启后数据不一致、数据双写等问题；使用 KV数据库作为 WAL 的 NewStore 解决了用户态 WAL 的问题，但由于每个事务需要先写数据再写元数据，分别对应一次 fsync，而对于 fsync，文件系统的行为是先 flush 数据再 flush 元数据，这就造成了在 NewStore 中写一个对象导致了四次昂贵的刷盘操作，典型的 <strong>journaling of journal</strong> 问题。</p>
+<p>第二，元数据的性能低效会扩散到整个集群。Ceph 团队遇到的一个挑战是 Posix 文件系统的 readdir 操作返回结果是乱序的，为了保证排序的高效，需要对目录进行分裂，这就会影响全局性能。</p>
+<p>第三，由于本地文件系统通常运行在内核态，当 Ceph 想要支持一个新的硬件（如 SMR、ZNS）的时就需要等待文件系统维护者的排期。</p>
+<p>在 2015 年，Ceph 开始设计并实现 BlueStore —— 一个用户态的存储后端，数据直接存储在裸盘之上，元数据存储在 kv 中。它实现了如下目标：</p>
+<ul>
+<li>Fast metadata operations</li>
+<li>No consistency overhead for object writes</li>
+<li>Copy-on-write clone operation</li>
+<li>No journaling double-writes</li>
+<li>Optimized I/O patterns for HDD and SSD</li>
+</ul>
+<p>为了达到快速元数据操作，BlueStore 使用 RocksDB 来存取元数据。为了能让数据和元数据共存底层设备，BlueStore 实现了一个能运行 RockesDB 的极简文件系统 BlueFS，BlueFs 具有一下特点：</p>
+<ul>
+<li>为每个文件维护一个 inode，inode 记录了文件使用的 extent 数组</li>
+<li>目录只有一层，不存在目录嵌套</li>
+<li>元数据都在内存(super block、dirmap、filemap)</li>
+<li>super block 存储在 offset = 4096 的磁盘位置，其中保存了 ino = 1 的 journal 文件 inode</li>
+<li>所有对文件系统的更改操作（如 mkdir, open, delete）都保存在 ino = 1 的文件中</li>
+<li>通过回放来获取 Dir/File 视图，然后通过 fileMap 来重构 Allocator 的可用块</li>
+</ul>
+<p>通过这种方式，journal 和其他文件的 extent 是交错存放在整个磁盘上的，而磁盘的分配由 Space Allocator 统一管理。</p>
+<p>对于大块写入，BlueStore 首先将数据写入新分配的 extent 中，一旦数据被持久化，相应的元数据被插入到 RocksDB，如此可以高效地支持克隆操作并能避免日志双写；对于小于 allocation size 的写入，数据和元数据都被插入 RocksDB，然后再异步写入磁盘。</p>
+<p>BlueStore 实现为用户态并通过 DirectIO 直接访问裸盘，因此不实用 kernel 提供的 page cache。为了能提供高效的读写，BlueStore 是实现了它自己的 write-through cache，使用 2Q 算法并对数据进行 shard 来支持并发。</p>
+<p>由于控制了所有的IO路径，Ceph 能更灵活高效地提供用户需要的功能特性。</p>
+<p>论文中在开头部分提到：</p>
+<ul>
+<li>Stonebraker: operating systems offer all things to all people at much higher overhead</li>
+<li>exokernels demonstrated that customizing abstractions to applications results in significantly better performance</li>
+</ul>
+<p>Ceph 在其演进过程中体会到了定制抽象层的重要性，对于云计算，byass kernel 也是很多产品的竞争高地。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../storage/kudu.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../storage/kudu.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

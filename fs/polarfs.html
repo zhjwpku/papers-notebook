@@ -1,0 +1,270 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>polarfs - 论文阅读笔记</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="../index.html">Paper Notes</a></li><li class="chapter-item "><a href="../databases/index.html"><strong aria-hidden="true">1.</strong> databases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../databases/column-stores-vs-row-stores.html"><strong aria-hidden="true">1.1.</strong> column-stores-vs-row-stores</a></li><li class="chapter-item "><a href="../databases/kv/index.html"><strong aria-hidden="true">1.2.</strong> kv</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../databases/kv/dynamo.html"><strong aria-hidden="true">1.2.1.</strong> dynamo</a></li></ol></li></ol></li><li class="chapter-item "><a href="../datalayout/index.html"><strong aria-hidden="true">2.</strong> datalayout</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../datalayout/c-store.html"><strong aria-hidden="true">2.1.</strong> cstore</a></li><li class="chapter-item "><a href="../datalayout/dremel.html"><strong aria-hidden="true">2.2.</strong> dremel</a></li><li class="chapter-item "><a href="../datalayout/rcfile.html"><strong aria-hidden="true">2.3.</strong> rcfile</a></li><li class="chapter-item "><a href="../datalayout/orc.html"><strong aria-hidden="true">2.4.</strong> orc</a></li></ol></li><li class="chapter-item expanded "><a href="../fs/index.html"><strong aria-hidden="true">3.</strong> filesystem</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../fs/polarfs.html" class="active"><strong aria-hidden="true">3.1.</strong> polarfs</a></li></ol></li><li class="chapter-item "><a href="../storage/index.html"><strong aria-hidden="true">4.</strong> storage</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../storage/kudu.html"><strong aria-hidden="true">4.1.</strong> kudu</a></li><li class="chapter-item "><a href="../storage/bluestore.html"><strong aria-hidden="true">4.2.</strong> bluestore</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">论文阅读笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h3 id="a-hrefassetspdfsp1849-caopdfpolarfs-an-ultralow-latency-and-failure-resilient-distributed-file-system-for-shared-storage-cloud-databasea"><a class="header" href="#a-hrefassetspdfsp1849-caopdfpolarfs-an-ultralow-latency-and-failure-resilient-distributed-file-system-for-shared-storage-cloud-databasea"><a href="../assets/pdfs/p1849-cao.pdf">PolarFS: An Ultralow Latency and Failure Resilient Distributed File System for Shared Storage Cloud Database</a></a></h3>
+<blockquote>
+<p>Proceedings of the VLDB EndowmentVolume 11Issue 12August 2018 pp 1849–1862</p>
+<p>https://doi.org/10.14778/3229863.3229872</p>
+</blockquote>
+<p>PolarFS 是为 PolarDB 设计的一个分布式文件系统，通过利用 RDMA、NVMe 等 bypass kernel 的技术，使 PolarFS 具有低时延、高吞吐、高可用等特性。为了最大化 I/O 吞吐，PolarFS 开发了 ParalleRaft，它利用数据库能够容忍乱序完成的能力，打破了 Raft 的严格串行化。</p>
+<p>PolarFS 的特点:</p>
+<ul>
+<li>使用 RDMA、NVMe 等新兴硬件，实现轻量的用户态的网络栈和 I/O 栈</li>
+<li>提供 POSIX-like 文件系统链接库 libpfs，应用直接调用 libpfs 提供的接口进而绕过 VFS。这样所有 I/O 路径都在用户态</li>
+<li>关键数据路径在设计上避免锁和上下文切换，充分利用 Zero-copy 技术</li>
+<li>使用允许 <code>out-of-order log acknowledging</code> 的 ParalleRaft 共识算法，提高 I/O 并发</li>
+</ul>
+<p>为了支撑 PolarDB 的主(Primary)从(Read Only)共享 redo 日志和数据文件的功能，PolarFS 还具有以下特点:</p>
+<ul>
+<li>可以同步文件元数据的改动，使得这些改动对从节点可见</li>
+<li>文件元数据的并发修改是串行化的，以保证文件系统在所有节点的一致性</li>
+<li>当发生网络分区的时候，PolarFS 确保只有一个 Primary node 提供服务，避免数据出错</li>
+</ul>
+<h3 id="架构"><a class="header" href="#架构">架构</a></h3>
+<p>PolarFS 由存储层(Storage layer)和文件系统层(File system layer)构成，存储层管理存储节点的磁盘资源并为每个数据库实例提供一个数据库卷(disk volumn)，文件系统层负责卷内的文件管理以及文件系统元数据的并发及同步管理。</p>
+<p><img src="./../assets/images/polarfs_storage_layer_abstraction.jpg" alt="storage layer abstraction" /></p>
+<h4 id="文件系统层"><a class="header" href="#文件系统层">文件系统层</a></h4>
+<p>文件系统元数据的管理，其负责在该逻辑存储空间上实现文件管理，并负责文件并发访问的同步和互斥。</p>
+<ul>
+<li>提供一个共享、并发的文件系统，可以被多个数据库实例访问</li>
+<li>libfs 完全实现在用户态，提供一组 Posix-like 文件系统接口，如 pfs_mount 将应用程序附加到相应的 Volumn 上，并初始化文件系统状态；pfs_mount_growfs 可以将 Volumn 扩展的空间标识为文件系统可用</li>
+<li>元数据的管理分为两部分
+<ul>
+<li>organize metadata to access and update files and directories within a database node</li>
+<li>coordinate and synchronize metadata modification among database nodes</li>
+</ul>
+</li>
+<li>元数据的更改记录在 jounal 中，RO 实例通过轮询日志 anchor 的变动来将日志 replay 到本节点的元数据</li>
+<li>当网络分区发生的时候，有可能有多个实例写 journal，因此需要 disk paxos 算法来保证对 Journal 文件的互斥写</li>
+</ul>
+<h4 id="存储层"><a class="header" href="#存储层">存储层</a></h4>
+<p>存储资源的虚拟化管理，其负责为每个数据库实例提供一个逻辑存储空间。</p>
+<p><strong>ChunkServer</strong></p>
+<ul>
+<li>一个数据库实例对应一个 Volumn，每个 Volumn 对应一个或多个 Chunk</li>
+<li>Chunk 大小为 10G 固定，通过将 Chunk Append 到 Volumn 使 Volumn 空间得以扩展</li>
+<li>100TB 的 Volumn 只需在元数据数据库中存储 10,000 条记录，这些元数据还可以缓存在 PolarSwitch 的内存中</li>
+<li>Volumn 提供 512B 字节原子读写</li>
+<li>Chunk 由 ChunkServer 管理，每个 Chunk 会 replicate 到 3 个 ChunkServer</li>
+<li>Chunk 被进一步切分为 Block，每个 Block 64KB。磁盘空间按 Block 粒度进行分配并 mapping 到 Chunk 以获得 thin provision</li>
+<li>Chunk LBA 到 Block 的 mapping 表（640KB）存储在 ChunkServer 上并在内存缓存</li>
+<li>每个 ChunkServer 进程管理一个 NVMe SSD 盘并进行了绑核以减少 ChunkServer 间的资源竞争</li>
+<li>每个 ChunkServer 对应一个 WAL，数据的修改先以 append 的方式写入 WAL，然后异步更新到对应的 Block，以保证原子性和持久性</li>
+<li>Consensus Group 按 ChunkServer 粒度实现，使用 ParallelRaft 算法复制 I/O 请求，进而保证数据一致性</li>
+</ul>
+<p>问题：</p>
+<ul>
+<li>WAL 对应的 3D XPoint SSD 与 Chunk 空间分配方法没有细致的描述</li>
+</ul>
+<p><strong>PolarSwitch</strong></p>
+<ul>
+<li>同一个或多个数据库实例一起部署在数据库服务器上</li>
+<li>libpfs 将 I/O 请求传递给 PolarSwitch，每个 I/O 请求包含 (volumn id, offset, length)</li>
+<li>PolarSwitch 根据缓存的 Volumn 元数据把 I/O 再发送到对应的 ChunkServer</li>
+<li>PolarSwitch 上的 Volumn 元数据跟 PolarCtrl 是同步的</li>
+<li>Chunk 的副本信息元数据缓存在 PolarSwitch</li>
+</ul>
+<p><strong>PolarCtrl</strong></p>
+<ul>
+<li>PolarCtrl 作为 PolarFS 的管控面，部署在一组（至少3个）专用的服务器上以保证服务高可用</li>
+<li>监测集群中 ChunkServer 的活动状态</li>
+<li>在元数据数据库（Mysql 实例）中维护 Volumns 状态 和 Chunks 位置</li>
+<li>创建 Volumn 并将 Chunks 分配给 ChunkServer</li>
+<li>将元数据同步到 PolarSwitch，推和拉两种方式都有</li>
+<li>监控 Volumn 和 Chunk 的 I/O 时延和吞吐</li>
+<li>周期性地发起副本内和副本间的CRC数据校验</li>
+</ul>
+<h4 id="io-执行模型"><a class="header" href="#io-执行模型">I/O 执行模型</a></h4>
+<p>对于写请求，数据库实例通常会调用 pfs_fallocate 预分配空间，以此避免昂贵的元数据操作。libpfs 通过共享内存与 PolarSwitch 进行数据交换。共享内存以生产者消费者的形式组成多个 ring buffer。</p>
+<p>读请求简单的由 Consensus Group 的 Leader 处理，而写请求则涉及所有的 Replica。下图展示了写 I/O 的流程：</p>
+<p><img src="./../assets/images/polarfs_write_io_excution_flow.jpg" alt="write io excution flow" /></p>
+<ol>
+<li>PolarDB 通过 libpfs 和 PolarSwitch 之间的 ring buffer 将 I/O 请求发送给 PolarSwitch</li>
+<li>PolarSwitch 通过缓存的元数据信息将 I/O 转发给对应的 Chunk 的 Leader 节点</li>
+<li>Leader Node 通过 RDMA 语义操作（通常是单边操作）将 I/O 放到预注册好的 buffer 中，并将请求放到请求队列，一个专用的线程循环从该队轮询消息</li>
+<li>请求通过 SPDK 被写入日志并且通过 RDMA 发送到 Follower 节点</li>
+<li>在 Follower 节点，RDMA NIC 将 Leader 节点发来的 I/O 请求放到与注册好的 buffer 中，并将请求放到请求队列</li>
+<li>Follower 节点也有一个专用的线程从队列轮询将请求通过 SDPK 异步写入磁盘</li>
+<li>Follower 将写入成功的消息通过 RDMA 发送给 Leader</li>
+<li>Leader 节点收到多数 Follower 返回的写入成功后，Leader 通过 SDPK 将写请求写入磁盘（步骤4只写了日志）</li>
+<li>Leader 通过 RDMA 回复 PolarSwitch</li>
+<li>PolarSwitch 回复客户端</li>
+</ol>
+<p>从上述过程可以看出 PolarFS 使用了大量的 bypass kernel 的技术。</p>
+<h3 id="parallelraft"><a class="header" href="#parallelraft">ParallelRaft</a></h3>
+<p>这部分只是简单浏览了一下，以后有机会再详细拜读。</p>
+<h4 id="references"><a class="header" href="#references">References:</a></h4>
+<p>[1] <a href="https://topic.atatech.org/articles/107314">PolarFS：面向云数据库的超低延迟文件系统（发表于VLDB 2018）</a> by 鸣嵩</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../fs/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../storage/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../fs/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../storage/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

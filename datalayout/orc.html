@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>orc - 论文阅读笔记</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="../index.html">Paper Notes</a></li><li class="chapter-item "><a href="../databases/index.html"><strong aria-hidden="true">1.</strong> databases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../databases/column-stores-vs-row-stores.html"><strong aria-hidden="true">1.1.</strong> column-stores-vs-row-stores</a></li><li class="chapter-item "><a href="../databases/kv/index.html"><strong aria-hidden="true">1.2.</strong> kv</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../databases/kv/dynamo.html"><strong aria-hidden="true">1.2.1.</strong> dynamo</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../datalayout/index.html"><strong aria-hidden="true">2.</strong> datalayout</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../datalayout/c-store.html"><strong aria-hidden="true">2.1.</strong> cstore</a></li><li class="chapter-item "><a href="../datalayout/dremel.html"><strong aria-hidden="true">2.2.</strong> dremel</a></li><li class="chapter-item "><a href="../datalayout/rcfile.html"><strong aria-hidden="true">2.3.</strong> rcfile</a></li><li class="chapter-item expanded "><a href="../datalayout/orc.html" class="active"><strong aria-hidden="true">2.4.</strong> orc</a></li></ol></li><li class="chapter-item "><a href="../fs/index.html"><strong aria-hidden="true">3.</strong> filesystem</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../fs/polarfs.html"><strong aria-hidden="true">3.1.</strong> polarfs</a></li></ol></li><li class="chapter-item "><a href="../storage/index.html"><strong aria-hidden="true">4.</strong> storage</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../storage/kudu.html"><strong aria-hidden="true">4.1.</strong> kudu</a></li><li class="chapter-item "><a href="../storage/bluestore.html"><strong aria-hidden="true">4.2.</strong> bluestore</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">论文阅读笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h3 id="a-hrefassetspdfsmajor_technical_advancements_in_apache_hivepdfmajor-technical-advancements-in-apache-hivea"><a class="header" href="#a-hrefassetspdfsmajor_technical_advancements_in_apache_hivepdfmajor-technical-advancements-in-apache-hivea"><a href="../assets/pdfs/Major_Technical_Advancements_in_Apache_Hive.pdf">Major Technical Advancements in Apache Hive</a></a></h3>
+<blockquote>
+<p>SIGMOD 2014</p>
+<p>https://dl.acm.org/doi/10.1145/2588555.2595630</p>
+</blockquote>
+<p>Apache Hive 是 Hadoop 生态被广泛使用的数仓系统，随着用量的增大增多，出现了一些短板，主要体现在 <code>file formats</code>、<code>query planning</code> 及 <code>query execution</code> 三个方面。Hive 需要更好的文件格式来充分利用存储空间并加速数据访问；更好的查询优化器及执行器来提高资源利用率及执行性能。</p>
+<p>本篇笔记主要关注论文中的 <code>file formats</code>，也就是 ORC(Optimized Record Columnar) 相关的内容。</p>
+<p>Hive 最初使用两种简单的文件格式：TextFile(plain text data) 和 SequenceFile(binary key/value pairs)，由于这两种存储对存储数据类型不可知（data-type-agnostic）且数据以 one-row-at-a-time 的方式进行存储，数据很难被有效压缩。Hive 0.4 引入的 <a href="./rcfile.html">RCFile</a> 列存格式在存储效率上有所提升，但其仍然对数据类型不可知且逐行进行序列化，在这种格式下，data-type specific compression 未能被有效利用。另外，RCFile 主要为 <code>sequential data scan</code> 而设计，它并未提供任何索引来帮助查询跳过无用数据。文中认为 Hive <code>file formats</code> 的两个不足：</p>
+<ul>
+<li>data-type-agnostic file formats and one-row-at-a-time serialization prevent data values being efficiently compressed</li>
+<li>data reading efficiency is limited by the lack of indexes and non-decomposed columns with complex data types</li>
+</ul>
+<h3 id="file-format"><a class="header" href="#file-format">File Format</a></h3>
+<p>为了解决存储和数据访问方面的不足，Hive 设计并实现了一个增强版的文件格式：Optimized Record Columnar File（ORC File）。其 3 个主要改进包括:</p>
+<ul>
+<li>ORC file writer 对数据类型可知，通过增加各种 type-specific 数据编码模式来更有效地存储数据</li>
+<li>引入各种索引来帮助 ORC reader 查找所需数据并跳过无用数据，从而加速数据访问</li>
+<li>由于 ORC writer 数据类型可知，可以将复杂类型（如 map）进一步分解</li>
+</ul>
+<p>除此之外，ORC 还具有更大的默认 stripe size (RCFile 称为 row group) 并通过 memory manager 组件来防止 ORC writer 耗尽内存。</p>
+<p>ORC 文件的结构示意图如下，我们借助此图从 <code>Table Placement Method</code>、<code>Indexes</code> 和 <code>Compression</code> 三方面对 ORC 进行介绍。</p>
+<p><img src="../assets/images/orc_file_structure.jpg" alt="The structure of an ORC file" /></p>
+<h4 id="the-table-placement-method"><a class="header" href="#the-table-placement-method">The Table Placement Method</a></h4>
+<p>当一个表存储为 ORC 文件时，它首先被水平切分成多个 <code>stripe</code>，在每个 stripe 中，数据按照 column by column 的方式存储，这跟 RCFile 保持了一致。同一个 stripe 的所有列的数据存储在同一个文件。从 Table Placement Method 的角度看，ORC 相对 RCFile 有三个改进：</p>
+<ol>
+<li>ORC 提供的默认 stripe size 为 256MB，而 RCFile 默认为 4MB，更大的 stripe size 具有更好的读取效率</li>
+<li>ORC 可以将复杂类型进一步分解成 column tree，其中间节点存储为 metadata stream，叶节点存储为 data stream</li>
+<li>ORC 用户可以选择将 stripe 的边界与 HDFS block 的边界对齐，以避免将一个 stripe 存储在两个 HDFS block</li>
+</ol>
+<p>我作为读者的一些疑惑及解答:</p>
+<ol>
+<li>RCFile 选择 4MB 是由于 Lazy Decompression，本文认为但在 Hive 中，Lazy Decompression 减慢了 execution pileline，这在后文的 Qeury Execution 一节中提到</li>
+<li>对分解之后的复杂类型如何重构为一行没有进行说明，这可能需要具体阅读相关源代码</li>
+</ol>
+<h4 id="indexes"><a class="header" href="#indexes">Indexes</a></h4>
+<p>ORC File 设计了两种稀疏索引 —— Data Statics 和 Position Pointers。</p>
+<p>Data Statics 被 ORC Reader 用来避免从 HDFS 读取不必要的数据，这些数据由 ORC Writer 在生成一个 ORF file 时创建，通常包括 min/max/sum、length 等数据。Data Statics 在 ORC File 中分为三级：</p>
+<ul>
+<li>File Level: 该级别的数据记录在文件结尾，通常用于查询优化及回答简单的聚合查询</li>
+<li>Stripe Level: 对 Stripe 中的每一列值都存储了相应的数据，可以用来跳过非必要的数据访问</li>
+<li>Index group Level: stripe 中的每一列可以组成多个 index group，默认每 10,000 行数据构成一个 index group，ORC 提供了 index group 级别的 data statics，从而可以更细粒度的跳过不需要的数据。</li>
+</ul>
+<p>Position Pointers 为 ORC Reader 有效读取数据提供了两种数据位置指针:</p>
+<ol>
+<li>start points of every index group in metadata streams and datastreams</li>
+<li>starting point of a stripe</li>
+</ol>
+<h4 id="compression"><a class="header" href="#compression">Compression</a></h4>
+<p>ORC 使用了两级压缩模式，一个流首先根据其数据类型进行编码，然后再使用通用压缩算法进行压缩（第二步可选）。对于一列数据，它可以被存储在一个或多个（复杂类型）流，流分为四种类型：</p>
+<ul>
+<li>Byte Stream</li>
+<li>Run Length Byte Stream</li>
+<li>Integer Stream</li>
+<li>Bit Field Stream</li>
+</ul>
+<p>不同类型的数据可以使用不同的编码方式，文中只介绍了 Int 类型和 String 类型如何将编码对应到上面的四种类型，更详细的实现需参考 Hive 源码。在如上编码之后，用户可以选择使用通用压缩算法如 ZLIB，Snappy 或 LZO 对流进行进一步压缩。</p>
+<h4 id="more-readings"><a class="header" href="#more-readings">More Readings:</a></h4>
+<p>[1] <a href="https://issues.apache.org/jira/browse/HIVE-3874">Create a new Optimized Row Columnar file format for Hive</a><br>
+[2] <a href="../assets/ppts/OrcFileIntro.pptx">ORC File Intro</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../datalayout/rcfile.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../fs/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../datalayout/rcfile.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../fs/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

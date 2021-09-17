@@ -1,0 +1,359 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>dremel - 论文阅读笔记</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="../index.html">Paper Notes</a></li><li class="chapter-item "><a href="../databases/index.html"><strong aria-hidden="true">1.</strong> databases</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../databases/column-stores-vs-row-stores.html"><strong aria-hidden="true">1.1.</strong> column-stores-vs-row-stores</a></li><li class="chapter-item "><a href="../databases/kv/index.html"><strong aria-hidden="true">1.2.</strong> kv</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../databases/kv/dynamo.html"><strong aria-hidden="true">1.2.1.</strong> dynamo</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../datalayout/index.html"><strong aria-hidden="true">2.</strong> datalayout</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../datalayout/c-store.html"><strong aria-hidden="true">2.1.</strong> cstore</a></li><li class="chapter-item expanded "><a href="../datalayout/dremel.html" class="active"><strong aria-hidden="true">2.2.</strong> dremel</a></li><li class="chapter-item "><a href="../datalayout/rcfile.html"><strong aria-hidden="true">2.3.</strong> rcfile</a></li><li class="chapter-item "><a href="../datalayout/orc.html"><strong aria-hidden="true">2.4.</strong> orc</a></li></ol></li><li class="chapter-item "><a href="../fs/index.html"><strong aria-hidden="true">3.</strong> filesystem</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../fs/polarfs.html"><strong aria-hidden="true">3.1.</strong> polarfs</a></li></ol></li><li class="chapter-item "><a href="../storage/index.html"><strong aria-hidden="true">4.</strong> storage</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../storage/kudu.html"><strong aria-hidden="true">4.1.</strong> kudu</a></li><li class="chapter-item "><a href="../storage/bluestore.html"><strong aria-hidden="true">4.2.</strong> bluestore</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">论文阅读笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h3 id="a-hrefassetspdfsdremelpdfdremel-interactive-analysis-of-web-scale-datasetsa"><a class="header" href="#a-hrefassetspdfsdremelpdfdremel-interactive-analysis-of-web-scale-datasetsa"><a href="../assets/pdfs/dremel.pdf">Dremel: Interactive Analysis of Web-Scale Datasets</a></a></h3>
+<blockquote>
+<p>VLDB 2010</p>
+<p>https://dl.acm.org/doi/10.14778/1920841.1920886</p>
+</blockquote>
+<p>Dremel 是 Google 内部使用的一个可扩展、交互式数据分析系统，通过将 <strong>multi-level execution trees</strong> 和<strong>列存数据布局</strong>结合，可以在秒级时间量级执行万亿（trillion）行表的聚集查询。</p>
+<p>Dremel 架构借用了分布式搜索引擎 <code>serving tree</code> 的概念，查询被下推到树的各个节点并在每一步进行改写，通过聚合从低层收到的回复来组装结果；另外，Dremel 提供了一个 SQL-like 的高级语言来表达 <code>ad hoc</code> 查询，不同于 Pig 和 Hive，Dremel 查询不会转换成 MR 任务。</p>
+<p>Dremel 使用了列存格式来存储数据，以减少不相关的数据读取和 CPU 消耗（due to cheaper compression）。虽然列存格式在 OLAP 领域并不少见，但 Dremel 开创性地将其扩展到了嵌套数据格式。</p>
+<h3 id="数据模型"><a class="header" href="#数据模型">数据模型</a></h3>
+<p>Dremel 的数据模型是基于强类型的嵌套记录，抽象语法:</p>
+<pre><code class="language-txt">t = dom | &lt;A1:t[*|?], ..., An:t[*|?]&gt;
+
+t 是原子类型或一个记录类型，原子类型包括整型、浮点数、字符串等
+Ai 为记录的第 i 个字段，其后的 [*|?] 表示其重复类型
+    * 表示该字段为 Repeated
+    ？表示该字段为 Optional
+    无标记则表示该字段为 Required
+</code></pre>
+<p>这种语法可以使用 ProtoBuffer 进行表示，PB 序列化后的数据适合用于 RPC，不适合作为下盘格式。这里我们认为 PB 数据为行存格式，下面通过例子描述如何将 PB 的数据转化为 Dremel 的列存格式。</p>
+<p><strong>Schema</strong></p>
+<pre><code class="language-proto">message Document {
+    required int64 DocId;
+    optional group Links {
+        repeated int64 Backward;
+        repeated int64 Forward;
+    }
+    repeated group Name {
+        repeated group Language {
+            required string Code;
+            optional string Country;
+        }
+        optional string Url;
+    }
+}
+</code></pre>
+<p>如上的 Schema 非常类似 JSON，理解起来应该不难。除了多重性标记之外，<code>full path</code> 的概念跟后面的 Repetition Level 和 Definition Level 有着密切的关系：</p>
+<table><thead><tr><th>Fild</th><th>Full Path</th></tr></thead><tbody>
+<tr><td>DocId</td><td>DocId</td></tr>
+<tr><td>Backward</td><td>Links.Back</td></tr>
+<tr><td>Language</td><td>Name.Language</td></tr>
+<tr><td>Country</td><td>Name.Language.Country</td></tr>
+</tbody></table>
+<p><strong>两行符合上述 Schema 的记录</strong></p>
+<p><em>r1</em></p>
+<pre><code class="language-yml">DocId: 10
+Links
+    Forward: 20
+    Forward: 40
+    Forward: 60
+Name
+    Language
+        Code: 'en-us'
+        Country: 'us'
+    Language
+        Code: 'en'
+    Url: 'http://A'
+Name
+    Url: 'http://B'
+Name
+    Language
+        Code: 'en-gb'
+        Country: 'gb'
+</code></pre>
+<p><em>r2</em></p>
+<pre><code class="language-yml">DocId: 20
+Links
+    Backward: 10
+    Backward: 30
+    Forward: 80
+Name
+    Url: 'http://C'
+</code></pre>
+<p>对于这种嵌套模式，如果单纯将同一字段的数据连续存储，不能确定一个数据属于哪条记录。Dremel 引入 <code>Repetition Level</code> 和 <code>Definition Level</code> 来解决这个问题。</p>
+<p><strong>Repetiton Level</strong> 记录该值在 <code>full path</code> 的哪一级进行重复，以 Name.Language.Code 为例，它含有两个可重复字段：<code>Name</code> 和 <code>Language</code>，因此 <code>Code</code> 的 Repetition Level 可取的值为 0,1,2:</p>
+<ul>
+<li>0 表示一个新行</li>
+<li>1 表示该值最近的重复级别为 Name</li>
+<li>2 表示该值最近的重复级别为 Language</li>
+</ul>
+<p>对 r1 进行 Repetition Level 标注：</p>
+<pre><code class="language-yml">                  Repetition Level
+DocId: 10                   0
+Links
+    Forward: 20             0
+    Forward: 40             1
+    Forward: 60             1
+Name
+    Language
+        Code: 'en-us'       0
+        Country: 'us'       0
+    Language
+        Code: 'en'          2
+    Url: 'http://A'         0
+Name
+    Url: 'http://B'         1
+Name
+    Language
+        Code: 'en-gb'       1
+        Country: 'gb'       1
+</code></pre>
+<p>注意到 r1 的第二个 Name 中没有任何 Code，但为了表示 en-gb 是属于第三个 Name，在 Code 列中插入了一条 NULL(repetition level 为 1)。Code 在 Language 中为 <strong>Required</strong> 字段，所以它为 NULL 隐含了 Language 也为 NULL。因此需要额外的信息来数据属于哪个级别，以避免构造出多余的数据结构。</p>
+<p><strong>Definition Level</strong> 表示了 full path 上的 optional 或 repeated 字段实际存在的个数，对于同列非 NULL 的所有记录，其值是相同的。</p>
+<p>对 r1 进行 Definition Level 标注：</p>
+<pre><code class="language-yml">                  Repetition Level      Definition Level
+DocId: 10                   0               0
+Links
+    Forward: 20             0               2
+    Forward: 40             1               2
+    Forward: 60             1               2
+Name
+    Language
+        Code: 'en-us'       0               2
+        Country: 'us'       0               3
+    Language
+        Code: 'en'          2               2
+    Url: 'http://A'         0               2
+Name
+    Url: 'http://B'         1               2
+Name
+    Language
+        Code: 'en-gb'       1               2
+        Country: 'gb'       1               3
+</code></pre>
+<p>Definition Level 主要对 NULL 有意义，在恢复数据的时候可以避免恢复出多余的结构。下图是 r1、r2 全量的列存结构：</p>
+<p><img src="./../assets/images/dremel_column_representation.jpg" alt="column-striped representation" /></p>
+<p>假设没有 Definition Level，尝试恢复 r1 的数据结构，会得到如下的结果：</p>
+<p>读第一行 en-us：</p>
+<pre><code class="language-yml">Document
+    Name
+        Language
+            code: 'en-us'
+</code></pre>
+<p>读第二行 en：</p>
+<pre><code class="language-yml">Document
+    Name
+        Language
+            code: 'en-us'
+        Language
+            code: 'en'
+</code></pre>
+<p>读第三行 NULL：</p>
+<pre><code class="language-yml">Document
+    Name
+        Language
+            code: 'en-us'
+        Language
+            code: 'en'
+    Name
+        Language
+</code></pre>
+<p>读第四行 en-gb：</p>
+<pre><code class="language-yml">Document
+    Name
+        Language
+            code: 'en-us'
+        Language
+            code: 'en'
+    Name
+        Language
+    Name
+        Language
+            code: 'en-gb'
+</code></pre>
+<p>可以看出第二个 Name 中构造出了 Language，这在 r1 是不存在的。但如果有了 Definition Level，在读取第三行的时候就能知道实际只存在一个字段，也就是 Name，这样在构造的时候就不会构造 Language 结构:</p>
+<p>读第三行 NULL：</p>
+<pre><code class="language-yml">Document
+    Name
+        Language
+            code: 'en-us'
+        Language
+            code: 'en'
+    Name
+</code></pre>
+<p>在实际的编码中会对上面的结构进行编码以减少不必要的存储空间。至此我们对 Dremel 的列存格式有了一定的了解。论文的附录有记录切分和组装的具体算法，这里不再描述。</p>
+<h3 id="查询执行"><a class="header" href="#查询执行">查询执行</a></h3>
+<p>Dremel 使用 <code>multi-level serving tree</code> 来执行查询，根节点收到请求，读取 metadata 并据此将请求路由到下一级，直到叶子节点，叶子节点请求存储层或直接访问本地盘获取数据，处理之后逐级汇总到根节点。请求在路由到下一级之前会进行改写。</p>
+<p><img src="./../assets/images/dremel_query_execution.jpg" alt="System architecture and execution inside a server node" /></p>
+<p>Dremel 是一个多用户系统，其 query dispatcher 会根据任务优先级和负载均衡进行调度。通过设置返回结果时必须扫描 tablets 的百分比（比如 98%），牺牲一定精确性来换取性能。</p>
+<p>Paper 中没有提到索引、连接、数据更新相关的内容。</p>
+<p><a href="https://github.com/apache/parquet-format">Apache Parquet</a> 的实现参考了 Dremel 的数据模型，<a href="https://github.com/apache/drill">Apache Drill</a> 的实现参考了 Dremel 的查询模型。</p>
+<h4 id="references"><a class="header" href="#references">References:</a></h4>
+<p>[1] <a href="https://blog.twitter.com/engineering/en_us/a/2013/dremel-made-simple-with-parquet">Dremel made simple with Parquet</a><br>
+[2] <a href="https://github.com/julienledem/redelm/wiki/The-striping-and-assembly-algorithms-from-the-Dremel-paper">The striping and assembly algorithms from the Dremel paper</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../datalayout/c-store.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../datalayout/rcfile.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../datalayout/c-store.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../datalayout/rcfile.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
